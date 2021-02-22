@@ -36,26 +36,7 @@ if (!is_dir($home_dir.'/.config/BomSMS')) {
     mkdir($home_dir.'/.config/BomSMS');
 }
 $file_hwid = $home_dir.'/.config/BomSMS/hwid';
-$file_lisensi = $home_dir.'/.config/BomSMS/lisensi';
-if(!file_exists($file_hwid)) {
-	$hwid = substr(str_shuffle(str_repeat("0123456789ABCDEF", 12)), 0, 12);
-	save($hwid, $home_dir.'/.config/BomSMS/hwid');
-}else{
-	$hwid = file_get_contents($home_dir.'/.config/BomSMS/hwid');
-}
-if(!file_exists($file_lisensi)) {
-	echo " \033[1;31m[!] Maaf, \033[1;33m$hwid\033[1;31m belum memiliki lisensi.\n\033[1;32m";
-	echo " \033[1;32m[\033[1;35m#\033[1;32m] Silahkan masukan lisensi anda!!!\n\033[1;32m";
-	echo " \033[1;32m[\033[1;35m?\033[1;32m] Lisensi => \033[1;33m";
-	$lisensi = trim(fgets(STDIN));
-	if(isset($lisensi)) {
-		save($hwid, $home_dir.'/.config/BomSMS/lisensi');
-	}else{
-      exit;
-    }
-}else{
-	$lisensi = file_get_contents($file_lisensi);
-}
+
 $chk_lisensi = file_get_contents("http://tools.cloudaccess.host/BomSMS.php?hwid=$hwid&lisensi=$lisensi");
 if($chk_lisensi == "valid") {
 	echo " \033[1;32m[\033[1;35m?\033[1;32m] Nomor Target => \033[1;33m";
@@ -105,7 +86,3 @@ if($chk_lisensi == "valid") {
 		$no = $a+1;
 		print "     \033[1;32m[\033[1;35m$no\033[1;32m] Sukses Mengirim Spam Ke \033[1;35m$nomer \033[1;32m√\n\033[1;32m";
 	}
-}else{
-	unlink($file_lisensi);
-	die("\033[1;31m[!] Lisensi anda salah, silahkan hubungi WA +18544444197!!!\033[1;33m\n");
-}
